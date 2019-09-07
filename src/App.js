@@ -8,6 +8,7 @@ class App extends Component {
       password: '',
       email: '',
       emailValid: false,
+      emailError: ''
     }
   }
   isEmail = (e) => {
@@ -15,7 +16,13 @@ class App extends Component {
       let emailValid = this.state.emailValid;
       this.setState({email:value});
       emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-      console.log(emailValid);
+
+      if (emailValid) {
+         this.setState({emailValid: true, emailError: ''});
+       }
+       else {
+         this.setState({emailValid: true, emailError: 'Please enter a valid email id'});
+       }
     }
 
   render() {
@@ -28,6 +35,7 @@ class App extends Component {
         <input type="email" name="email" id="email"
         onChange={this.isEmail}
         />
+        <div className="error">{this.state.emailError}</div>
         <label>Password</label>
         <div className="meter">
           <input autoComplete="off" type="password" onChange={e => this.setState({ password: e.target.value })} />
