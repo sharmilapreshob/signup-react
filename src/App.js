@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import PasswordMeter from './components/PasswordMeter';
+import './App.css'
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      password: '',
+      email: '',
+      emailValid: false,
+    }
+  }
+  isEmail = (e) => {
+      const value = e.target.value;
+      let emailValid = this.state.emailValid;
+      this.setState({email:value});
+      emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+      console.log(emailValid);
+    }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  render() {
+    const { password } = this.state;
+    return (
+      <div className="App">
+      <form className="form">
+        <h2>Registration Form</h2>
+        <label>Email</label>
+        <input type="email" name="email" id="email"
+        onChange={this.isEmail}
+        />
+        <label>Password</label>
+        <div className="meter">
+          <input autoComplete="off" type="password" onChange={e => this.setState({ password: e.target.value })} />
+          <PasswordMeter password={password} />
+        </div>
+        <button className="btn-submit"  type="submit" id="signUp" name="button">Submit</button>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default App;
